@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Job Hunter</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<header>
+    <h1>Job Hunter</h1>
+    <p class="tagline">Upload your resume &middot; search jobs automatically every day &middot; get an applied-jobs report</p>
+</header>
+
+<main>
+    <section class="card">
+        <h2>1. Upload your resume</h2>
+        <form id="uploadForm">
+            <label>Resume file (PDF, DOCX or TXT)
+                <input type="file" id="resumeFile" accept=".pdf,.docx,.txt" required/>
+            </label>
+            <label>Preferred location (optional)
+                <input type="text" id="location" placeholder="e.g. Bangalore, Remote"/>
+            </label>
+            <button type="submit">Upload &amp; analyze</button>
+        </form>
+        <div id="resumeInfo" class="resume-info hidden"></div>
+    </section>
+
+    <section class="card">
+        <div class="row">
+            <h2>2. Daily search</h2>
+            <button id="runNow" class="secondary">Run search now</button>
+        </div>
+        <p class="hint">A search runs automatically every day. Use "Run search now" to try it immediately.</p>
+        <div id="runStatus" class="status hidden"></div>
+    </section>
+
+    <section class="card">
+        <div class="row">
+            <h2>3. Jobs &amp; applied report</h2>
+            <div class="tabs">
+                <button class="tab active" data-tab="all">All matches</button>
+                <button class="tab" data-tab="applied">Applied report</button>
+            </div>
+        </div>
+        <table id="jobsTable">
+            <thead>
+            <tr>
+                <th>Match</th>
+                <th>Title</th>
+                <th>Company</th>
+                <th>Location</th>
+                <th>Source</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="jobsBody"></tbody>
+        </table>
+        <p id="emptyState" class="hint">No jobs yet. Upload a resume and run a search.</p>
+    </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
