@@ -6,6 +6,7 @@ import com.jobhunter.service.JobSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,10 +15,26 @@ import org.springframework.stereotype.Component;
  * report -> email) run locally without any external credentials.
  *
  * <p>Replace or supplement this with a real {@link JobSource} (see
- * {@link NaukriJobSource}) when you are ready to hit live job boards.
+ * {@link AdzunaJobSource}) when you are ready to hit live job boards. It is
+ * disabled automatically once a live source (Adzuna) is configured, or
+ * explicitly via {@code jobhunter.source.mock.enabled=false}.
  */
 @Component
 public class MockJobSource implements JobSource {
+
+    private final boolean enabled;
+
+    public MockJobSource(
+            @Value("${jobhunter.source.mock.enabled:true}") boolean enabled,
+            @Value("${jobhunter.source.adzuna.app-id:}") String adzunaAppId) {
+        // Fall back to mock data only when no live source is configured.
+        this.enabled = enabled && (adzunaAppId == null || adzunaAppId.isBlank());
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
     private static final String[] COMPANIES = {
             "Infosys", "TCS", "Wipro", "Accenture", "Tech Mahindra", "Cognizant",

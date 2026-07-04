@@ -12,16 +12,21 @@ import org.springframework.stereotype.Component;
 /**
  * Real job-board source for naukri.com.
  *
- * <p><b>Not yet wired to the live site.</b> Naukri has no public search API and
- * scraping/auto-applying requires a logged-in session and violates their terms
- * of service in many cases (bot detection, captchas). This class is the
- * designated place to add that integration:
+ * <p><b>Not usable from a server/datacenter environment.</b> Naukri has no
+ * public search API, and its login is protected by anti-bot measures (generic
+ * "invalid details" responses, looping reCAPTCHA image challenges) that reject
+ * automated/datacenter sessions even with correct credentials. Auto-applying
+ * also violates their terms of service. Prefer {@link AdzunaJobSource} for a
+ * legitimate live source.
+ *
+ * <p>If you run this tool on your own machine (residential IP, real logged-in
+ * browser) you can implement {@link #search} against a logged-in session:
  *
  * <ol>
  *   <li>Enable it with {@code jobhunter.source.naukri.enabled=true}.</li>
  *   <li>Add credentials via environment variables (never commit them).</li>
- *   <li>Implement {@link #search} using an HTTP client or a headless browser
- *       (e.g. Playwright/Selenium) driving a logged-in session.</li>
+ *   <li>Implement {@link #search} using a headless browser (e.g.
+ *       Playwright/Selenium) driving a logged-in session.</li>
  * </ol>
  *
  * Until then it is disabled and returns no results, so the pipeline falls back
